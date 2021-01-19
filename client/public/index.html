@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Chat</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./dist/main.css">
+        
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <nav class="w-full h-10 flex flex-row justify-between items-center shadow">
+            <h1 class="ml-1">Chat</h1>
+            <button onclick="Settings();">Settings</button>
+        </nav>
+
+        <main class="w-full h-90">
+            <section id="opener" class="w-full flex flex-col h-full justify-center items-center">
+                <form class="w-1/2 flex flex-col justify-center items-center" onsubmit="event.preventDefault(); startChat(event.target);">
+                   <div class="form-group">
+                       <label for="userName">Your name</label>
+                       <input type="text" id="userName" name="userName">
+                   </div>
+                   <div class="form-group">
+                      
+                       <input type="text" name="chatName" id="chatName">
+                       <label for="chatName">Who will you chat</label>
+                   </div>
+
+                    <button>Start</button>
+                </form>
+            </section>
+           <section id="chat" class="w-full h-full flex flex-row">
+            <aside class="w-1/4 h-full flex flex-col">
+
+            </aside>
+            <section class="h-full w-3/4 flex flex-col chatSpec">
+                <section id="chatArea" class="w-full h-full flex flex-col h-90 overflow-y-show">
+
+                </section>
+                <section class="w-full  h-10">
+                    <form onsubmit="event.preventDefault();SendMessage(event.target)" class="h-full w-full flex flex-row">
+                        <input class="w-4/5 h-full"/>
+                        <button class="w-1/5 h-full">Send</button>
+                    </form>
+                </section>
+            </section>
+           </section>
+        </main>
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p>Some text in the Modal..</p>
+            </div>
+          
+          </div>
+        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+        <script src="./dist/main.js" async defer></script>
+    </body>
+</html>
