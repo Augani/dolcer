@@ -71,7 +71,7 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 
 ```bash
 # Clone this project
-$ git clone https://github.com/{{YOUR_GITHUB_USERNAME}}/dolcer-chat
+$ git clone https://github.com/augani/dolcer-chat
 
 # Access
 $ cd dolcer-chat
