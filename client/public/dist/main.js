@@ -16,12 +16,13 @@ function userOnline(user) {
 
 function messageReceived(messageObject) {
   appendChat(messageObject);
+  addMessage(messageObject);
 }
 function emitMessage(messageObject) {
   socket.emit("message", messageObject);
 }
 function SendMessage(e) {
-  let message = e.getElementsByTagName("input")[0].value;
+  let message = e.getElementsByTagName("textarea")[0].value;
   if (!message) return;
   let myName = sessionStorage.getItem("username");
   let user = sessionStorage.getItem("currentChat");
@@ -34,8 +35,9 @@ function SendMessage(e) {
     from: myName,
   };
   appendChat(messageObject);
+  addMessage(messageObject);
   emitMessage(messageObject);
-  e.getElementsByTagName("input")[0].value = "";
+  e.getElementsByTagName("textarea")[0].value = "";
 }
 
 function getSocketId(name) {
@@ -43,8 +45,8 @@ function getSocketId(name) {
   return usersList.filter((user) => user.userId == name)[0] || null;
 }
 
-function sessionSave(key, value){
-    sessionStorage.setItem(key, value)
+function sessionSave(key, value) {
+  sessionStorage.setItem(key, value);
 }
 
 function startChat(e) {
@@ -63,10 +65,15 @@ function startChat(e) {
 }
 
 function getUserMessage(message) {
+  let image = isAnImage(message.message);
   return `
     <div class="w-4/5 flex flex-row mb-1 px-10">
         <span class="w-1/5 flex flex-col chat-them p-1 ">
-            <p>${message.message}</p>
+        ${
+          image
+            ? '<img src="' + message.message + '"/>'
+            : "<p>" + message.message + "</p>"
+        }
             <small>${message.createdAt}</small>
         </span>
     </div>
@@ -74,10 +81,15 @@ function getUserMessage(message) {
 }
 
 function getMyMessage(message) {
+  let image = isAnImage(message.message);
   return `
     <div class="w-4/5 flex flex-row-reverse px-10 mb-1">
         <span class="w-1/5 flex flex-col chat-me p-1">
-            <p>${message.message}</p>
+            ${
+              image
+                ? '<img src="' + message.message + '"/>'
+                : "<p>" + message.message + "</p>"
+            }
             <small>${message.createdAt}</small>
         </span>
     </div>
@@ -85,14 +97,27 @@ function getMyMessage(message) {
 }
 
 function appendChat(message) {
+  debugger;
   var el = document.getElementById("chatArea");
   if (message.from == sessionStorage.getItem("username")) {
-    message.createdAt = new Date().toLocaleTimeString();
+    message.createdAt = message.createdAt
+      ? timeSetter(message.createdAt)
+      : timeSetter(new Date());
     var mes = getMyMessage(message);
     el.insertAdjacentHTML("beforeend", mes);
   } else {
+    message.createdAt = timeSetter(message.createdAt);
     var mes = getUserMessage(message);
     el.insertAdjacentHTML("beforeend", mes);
+  }
+}
+
+function timeSetter(dt) {
+  let time = sessionStorage.getItem("time") || 12;
+  if (time == 12) {
+    return get12Hour(dt);
+  } else {
+    return get24Hour(dt);
   }
 }
 
@@ -101,4 +126,85 @@ function Settings() {
   modal.style.display = "block";
 }
 
+function timeChanged(e) {
+  if(e.value == 12){
+        sessionSave('time', 12)
+  }else {
+    sessionSave('time', 24)
+  }
+  reloadMessages()
+}
 
+function addMessage(message) {
+  let messages = sessionStorage.getItem("messages") || JSON.stringify([]);
+  messages = JSON.parse(messages);
+  messages.push(message);
+  messages = JSON.stringify(messages);
+  sessionSave("messages", messages);
+}
+
+function reloadMessages() {
+  var el = document.getElementById("chatArea");
+  let messages = sessionStorage.getItem("messages");
+  if(!messages)return;
+  messages = JSON.parse(messages);
+  el.innerHTML = "";
+  for (var t = 0; t < messages.length; t++) {
+    appendChat(messages[t]);
+  }
+}
+
+function get24Hour(datetime) {
+    let t = new Date();
+    let y = new Date(`${t.getDate()}/${t.getMonth()}/${t.getFullYear()} ${datetime}`)
+    return y.getHours() + ":" + y.getMinutes();
+}
+
+function get12Hour(datetime) {
+  var suffix = new Date(datetime).getHours() >= 12 ? "PM" : "AM";
+  let hour =
+    new Date(datetime).getHours() > 12
+      ? new Date(datetime).getHours() - 12
+      : new Date(datetime).getHours();
+  let minutes = new Date(datetime).getMinutes();
+  return hour + ":" + minutes + " " + suffix;
+}
+
+function isAnImage(message) {
+  let url;
+
+  try {
+    url = new URL(message);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+function handler(e){
+    if(e.keyCode===13 && e.ctrlKey){
+        document.getElementById("sendBtn").click();
+    }
+}
+
+function ctrlChanged(e){
+    if(e.value == "on"){
+        document.addEventListener('keydown',handler);
+    
+    }else {
+        document.removeEventListener('keydown',handler);
+    }
+}
+
+function closeModal(){
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    var modal = document.getElementById("myModal");
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }

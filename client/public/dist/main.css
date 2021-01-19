@@ -1,21 +1,21 @@
 :root {
   --tw-shadow: 0 0 #0000;
-  --input-color: #99A3BA;
-  --input-border: #CDD9ED;
+  --input-color: #99a3ba;
+  --input-border: #cdd9ed;
   --input-background: #fff;
-  --input-placeholder: #CBD1DC;
-  --input-border-focus: #275EFE;
+  --input-placeholder: #cbd1dc;
+  --input-border-focus: #275efe;
   --group-color: var(--input-color);
   --group-border: var(--input-border);
-  --group-background: #EEF4FF;
+  --group-background: #eef4ff;
   --group-color-focus: #fff;
   --group-border-focus: var(--input-border-focus);
-  --group-background-focus: #678EFE;
+  --group-background-focus: #678efe;
 }
 
 body {
   font: 100% "Roboto", sans-serif;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 0;
   margin: 0;
   color: #171717;
@@ -145,6 +145,7 @@ main {
   z-index: 1;
   flex: 1 1 auto;
   width: 1%;
+  text-transform: lowercase;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -185,6 +186,19 @@ main {
   transition: all 0.4s ease 0s;
 }
 
+.settings {
+  text-transform: uppercase;
+  text-decoration: none;
+  background: transparent;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  border: none;
+  transition: all 0.1s ease 0s;
+  margin-top: 2em;
+  cursor: pointer;
+}
+
 .h-screen {
   height: 100vh;
 }
@@ -194,6 +208,13 @@ main {
 }
 #chat.start {
   display: flex;
+}
+#chat img {
+  width: 100px;
+}
+
+.justify-even {
+  justify-content: space-evenly;
 }
 
 .mr-1 {
@@ -285,13 +306,16 @@ main {
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 40%;
+  position: relative;
 }
 .modal .close {
-  color: #aaa;
+  color: #1f1a1a;
   float: right;
-  font-size: 28px;
+  font-size: 0.7em;
   font-weight: bold;
+  right: 5px;
+  top: 5px;
 }
 .modal .close:hover,
 .modal .close:focus {
@@ -302,44 +326,50 @@ main {
 
 .chat-me {
   position: relative;
-  background: #f7ecd6;
-  border-radius: 0.4em;
+  width: 250px;
+  height: 120px;
+  padding: 0px;
+  background: #ffffff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }
 
 .chat-me:after {
   content: "";
   position: absolute;
-  right: 0;
-  top: 50%;
+  border-style: solid;
+  border-width: 15px 0 15px 15px;
+  border-color: transparent #ffffff;
+  display: block;
   width: 0;
-  height: 0;
-  border: 39px solid transparent;
-  border-left-color: #f7ecd6;
-  border-right: 0;
-  border-bottom: 0;
-  margin-top: -19.5px;
-  margin-right: -39px;
+  z-index: 1;
+  right: -15px;
+  top: 45px;
 }
 
 .chat-them {
   position: relative;
-  background: #caf4f8;
-  border-radius: 0.4em;
+  width: 250px;
+  height: 120px;
+  padding: 0px;
+  background: #ffffff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }
 
 .chat-them:after {
   content: "";
   position: absolute;
-  left: 0;
-  top: 50%;
+  border-style: solid;
+  border-width: 15px 15px 15px 0;
+  border-color: transparent #ffffff;
+  display: block;
   width: 0;
-  height: 0;
-  border: 41px solid transparent;
-  border-right-color: #caf4f8;
-  border-left: 0;
-  border-bottom: 0;
-  margin-top: -20.5px;
-  margin-left: -41px;
+  z-index: 1;
+  left: -15px;
+  top: 45px;
 }
 
 .chatSpec {
@@ -354,6 +384,78 @@ main {
   padding-left: 4em;
   padding-right: 4em;
   max-width: 100%;
+}
+
+@media (max-width: 641px) {
+  #chat aside {
+    width: 0 !important;
+  }
+
+  .chatSpec {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #opener form {
+    width: 90%;
+  }
+
+  #chatArea {
+    width: 95vw;
+  }
+
+  #send button {
+    border-radius: 4px;
+    color: black;
+  }
+
+  .chat-me {
+    position: relative;
+    width: 250px;
+    height: 120px;
+    padding: 0px;
+    background: #ffffff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+  }
+
+  .chat-me:after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 0 15px 15px;
+    border-color: transparent #ffffff;
+    display: block;
+    width: 0;
+    z-index: 1;
+    right: -15px;
+    top: 45px;
+  }
+
+  .chat-them {
+    position: relative;
+    width: 250px;
+    height: 120px;
+    padding: 0px;
+    background: #ffffff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+  }
+
+  .chat-them:after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 15px 15px 0;
+    border-color: transparent #ffffff;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: -15px;
+    top: 45px;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */
