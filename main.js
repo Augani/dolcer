@@ -5,6 +5,9 @@ var http = require("http").Server(app);
 const io = require("socket.io")(http);
 var usersOnline = [];
 
+
+
+
 io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     disconnect(socket.id);
@@ -18,6 +21,7 @@ io.on("connection", (socket) => {
     io.emit(data.to.socketId, data);
   });
 });
+
 
 io.on("message", (data) => {
   console.log(data);

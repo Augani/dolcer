@@ -102,7 +102,7 @@ function appendChat(message) {
   if (message.from == sessionStorage.getItem("username")) {
     message.createdAt = message.createdAt
       ? timeSetter(message.createdAt)
-      : timeSetter(new Date());
+      : timeSetter(newTime());
     var mes = getMyMessage(message);
     el.insertAdjacentHTML("beforeend", mes);
   } else {
@@ -156,17 +156,19 @@ function reloadMessages() {
 
 function get24Hour(datetime) {
     let t = new Date();
-    let y = new Date(`${t.getDate()}/${t.getMonth()}/${t.getFullYear()} ${datetime}`)
+    let y = new Date(`${t.getMonth()+1}/${t.getDate()}/${t.getFullYear()} ${datetime}`)
     return y.getHours() + ":" + y.getMinutes();
 }
 
 function get12Hour(datetime) {
-  var suffix = new Date(datetime).getHours() >= 12 ? "PM" : "AM";
+    let t = new Date();
+    let y = new Date(`${t.getMonth()+1}/${t.getDate()}/${t.getFullYear()} ${datetime}`)
+  var suffix = y.getHours() >= 12 ? "PM" : "AM";
   let hour =
-    new Date(datetime).getHours() > 12
-      ? new Date(datetime).getHours() - 12
-      : new Date(datetime).getHours();
-  let minutes = new Date(datetime).getMinutes();
+    y.getHours() > 12
+      ? y.getHours() - 12
+      : y.getHours();
+  let minutes = y.getMinutes();
   return hour + ":" + minutes + " " + suffix;
 }
 
@@ -206,5 +208,16 @@ window.onclick = function(event) {
     var modal = document.getElementById("myModal");
     if (event.target == modal) {
       modal.style.display = "none";
+    }
+  }
+
+  function newTime(){
+    let time = sessionStorage.getItem("time") || 12;
+    if (time == 12) {
+        var date = new Date();
+        return date.toLocaleString('en-US');
+    } else {
+        var date = new Date();
+        return date.toLocaleString('en-GB');
     }
   }
