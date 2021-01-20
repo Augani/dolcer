@@ -30,12 +30,7 @@ function disconnect(id) {
   console.log(id, "dis");
 }
 app.use("/simple", express.static("client/public"));
-app.use(express.static(path.join(__dirname, "client-react/build")));
 
-// Handle React routing, return all requests to React app
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "client-react/build", "index.html"));
-});
 
 http.listen(8000, () => {
   console.log("listening on port ");

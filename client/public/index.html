@@ -4,99 +4,138 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Chat</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="./dist/main.css">
-        
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Chat</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./dist/main.css" />
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
 
-        <nav class="w-full h-10 flex flex-row justify-between items-center shadow">
-            <h1 class="ml-1">Chat</h1>
-            <button class="settings" onclick="Settings();">Settings</button>
-        </nav>
+    <nav class="w-full h-10 flex flex-row justify-between items-center shadow">
+      <h1 class="ml-1">Chat</h1>
+      <button class="settings" onclick="Settings();">Settings</button>
+    </nav>
 
-        <main class="w-full h-90">
-            <section id="opener" class="w-full flex flex-col h-full justify-center items-center">
-                <form class="w-1/2 flex flex-col justify-center items-center" onsubmit="event.preventDefault(); startChat(event.target);">
-                   <div class="form-group">
-                       <label for="userName">Your name</label>
-                       <input required type="text" id="userName" name="userName">
-                   </div>
-                   <div class="form-group">
-                      
-                       <input required type="text" name="chatName" id="chatName">
-                       <label for="chatName">Who will you chat</label>
-                   </div>
-
-                    <button>Start</button>
-                </form>
-            </section>
-           <section id="chat" class="w-full h-full flex flex-row">
-            <aside class="w-1/4 h-full flex flex-col">
-
-            </aside>
-            <section class="h-full w-3/4 flex flex-col chatSpec">
-                <section id="chatArea" class="w-full h-full flex flex-col h-90 overflow-y-show">
-
-                </section>
-                <section class="w-full  h-10">
-                    <form id="send" onsubmit="event.preventDefault();SendMessage(event.target);" class="h-full w-full flex flex-row">
-                        <textarea required placeholder="Enter a message" class="w-4/5 h-full"></textarea>
-                        <button id="sendBtn" type="submit" class="w-1/5 h-full">Send</button>
-                    </form>
-                </section>
-            </section>
-           </section>
-        </main>
-        <div id="myModal" class="modal ">
-                
-            <!-- Modal content -->
-            <div class="modal-content">
-                <button class="absolute close" onclick="closeModal();">Close</button>
-             <fieldset class="flex flex-col">
-                 <legend>Clock display</legend>
-               <div class="w-full flex flex-row justify-even">
-                <div>
-                   
-                    <input type="radio" value="12" onchange="timeChanged(this)" checked="truw" name="hour" id="12hour">
-                    <label for="12hour">12 hour</label>
-                </div>
-                <div>
-                   
-                    <input type="radio" value="24" onchange="timeChanged(this)" name="hour" id="24hour">
-                    <label for="24hour">24 hour</label>
-                </div>
-               </div>
-             </fieldset>
-             <fieldset class="flex flex-col">
-                <legend>Send messages with CTRL/CMD + Enter</legend>
-               <div class="w-full flex flex-row justify-even">
-                <div>
-                   
-                    <label for="on">On</label>
-                    <input type="radio" value="on" onchange="ctrlChanged(this)"  name="message" id="On">
-                </div>
-                <div>
-                    
-                    <label for="off">Off</label>
-                    <input type="radio" checked="true" value="off" onchange="ctrlChanged(this)" name="message" id="Off">
-                </div>
-               </div>
-             </fieldset>
-            </div>
-          
+    <main class="w-full h-90">
+      <section
+        id="opener"
+        class="w-full flex flex-col h-full justify-center items-center"
+      >
+        <form
+          class="w-1/2 flex flex-col justify-center items-center"
+          onsubmit="event.preventDefault(); startChat(event.target);"
+        >
+          <div class="form-group">
+            <label for="userName">Your name</label>
+            <input required type="text" id="userName" name="userName" />
           </div>
-        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
-        <script src="./dist/main.js" async defer></script>
-    </body>
+          <div class="form-group">
+            <input required type="text" name="chatName" id="chatName" />
+            <label for="chatName">Who will you chat</label>
+          </div>
+
+          <button>Start</button>
+        </form>
+      </section>
+      <section id="chat" class="w-full h-full flex flex-row">
+        <aside class="w-1/4 h-full flex flex-col"></aside>
+        <section class="h-full w-3/4 flex flex-col chatSpec">
+          <section
+            id="chatArea"
+            class="w-full h-full flex flex-col h-90 overflow-y-show"
+          ></section>
+          <section class="w-full h-10">
+            <form
+              id="send"
+              onsubmit="event.preventDefault();SendMessage(event.target);"
+              class="h-full w-full flex flex-row"
+            >
+              <textarea
+                required
+                placeholder="Enter a message"
+                class="w-4/5 h-full"
+              ></textarea>
+              <button id="sendBtn" type="submit" class="w-1/5 h-full">
+                Send
+              </button>
+            </form>
+          </section>
+        </section>
+      </section>
+    </main>
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <button class="absolute close" onclick="closeModal();">Close</button>
+        <fieldset class="flex flex-col">
+          <legend>Clock display</legend>
+          <div class="w-full flex flex-row justify-even">
+            <div>
+              <input
+                type="radio"
+                value="12"
+                onchange="timeChanged(this)"
+                checked="truw"
+                name="hour"
+                id="12hour"
+              />
+              <label for="12hour">12 hour</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                value="24"
+                onchange="timeChanged(this)"
+                name="hour"
+                id="24hour"
+              />
+              <label for="24hour">24 hour</label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="flex flex-col">
+          <legend>Send messages with CTRL/CMD + Enter</legend>
+          <div class="w-full flex flex-row justify-even">
+            <div>
+              <label for="on">On</label>
+              <input
+                type="radio"
+                value="on"
+                onchange="ctrlChanged(this)"
+                name="message"
+                id="On"
+              />
+            </div>
+            <div>
+              <label for="off">Off</label>
+              <input
+                type="radio"
+                checked="true"
+                value="off"
+                onchange="ctrlChanged(this)"
+                name="message"
+                id="Off"
+              />
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    <script src="./dist/main.js" async defer></script>
+  </body>
 </html>
