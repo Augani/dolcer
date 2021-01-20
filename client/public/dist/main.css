@@ -378,6 +378,13 @@ main {
   top: 45px;
 }
 
+#chatArea {
+  padding-top: 0.4em;
+}
+#chatArea span {
+  padding: 0.3em;
+}
+
 .chatSpec {
   max-width: 75%;
 }
@@ -408,6 +415,7 @@ main {
 
   #chatArea {
     width: 95vw;
+    padding-top: 0.4em;
   }
 
   #send button {

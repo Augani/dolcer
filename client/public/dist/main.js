@@ -24,8 +24,8 @@ function emitMessage(messageObject) {
 function SendMessage(e) {
   let message = e.getElementsByTagName("textarea")[0].value;
   if (!message) return;
-  let myName = sessionStorage.getItem("username");
-  let user = sessionStorage.getItem("currentChat");
+  let myName = localStorage.getItem("username");
+  let user = localStorage.getItem("currentChat");
   let userData = getSocketId(user);
   if (!userData) return;
   messageObject = {
@@ -33,6 +33,7 @@ function SendMessage(e) {
     message,
     to: userData,
     from: myName,
+    createdAt: newTime()
   };
   appendChat(messageObject);
   addMessage(messageObject);
@@ -41,12 +42,12 @@ function SendMessage(e) {
 }
 
 function getSocketId(name) {
-  let usersList = JSON.parse(sessionStorage.getItem("users"));
+  let usersList = JSON.parse(localStorage.getItem("users"));
   return usersList.filter((user) => user.userId == name)[0] || null;
 }
 
 function sessionSave(key, value) {
-  sessionStorage.setItem(key, value);
+  localStorage.setItem(key, value);
 }
 
 function startChat(e) {
@@ -67,8 +68,8 @@ function startChat(e) {
 function getUserMessage(message) {
   let image = isAnImage(message.message);
   return `
-    <div class="w-4/5 flex flex-row mb-1 px-10">
-        <span class="w-1/5 flex flex-col chat-them p-1 ">
+    <div class="w-4/5 flex flex-row mb-1 px-10 ">
+        <span class="w-1/5 flex flex-col chat-them p-1 shadow">
         ${
           image
             ? `<img onerror="this.onerror=null; this.src='https://picsum.photos/200'" src="' + message.message + '"/>`
@@ -83,8 +84,8 @@ function getUserMessage(message) {
 function getMyMessage(message) {
   let image = isAnImage(message.message);
   return `
-    <div class="w-4/5 flex flex-row-reverse px-10 mb-1">
-        <span class="w-1/5 flex flex-col chat-me p-1">
+    <div class="w-4/5 flex flex-row-reverse px-10 mb-1 ">
+        <span class="w-1/5 flex flex-col chat-me p-1 shadow">
             ${
               image
                 ? `<img onerror="this.onerror=null; this.src='https://picsum.photos/200'" src="' + message.message + '"/>`
@@ -99,7 +100,7 @@ function getMyMessage(message) {
 function appendChat(message) {
   debugger;
   var el = document.getElementById("chatArea");
-  if (message.from == sessionStorage.getItem("username")) {
+  if (message.from == localStorage.getItem("username")) {
     message.createdAt = message.createdAt
       ? timeSetter(message.createdAt)
       : timeSetter(newTime());
@@ -113,13 +114,14 @@ function appendChat(message) {
 }
 
 function timeSetter(dt) {
-  let time = sessionStorage.getItem("time") || 12;
+  let time = localStorage.getItem("time") || 12;
   if (time == 12) {
     return get12Hour(dt);
   } else {
     return get24Hour(dt);
   }
 }
+
 
 function Settings() {
   var modal = document.getElementById("myModal");
@@ -136,7 +138,7 @@ function timeChanged(e) {
 }
 
 function addMessage(message) {
-  let messages = sessionStorage.getItem("messages") || JSON.stringify([]);
+  let messages = localStorage.getItem("messages") || JSON.stringify([]);
   messages = JSON.parse(messages);
   messages.push(message);
   messages = JSON.stringify(messages);
@@ -145,7 +147,7 @@ function addMessage(message) {
 
 function reloadMessages() {
   var el = document.getElementById("chatArea");
-  let messages = sessionStorage.getItem("messages");
+  let messages = localStorage.getItem("messages");
   if(!messages)return;
   messages = JSON.parse(messages);
   el.innerHTML = "";
@@ -212,13 +214,13 @@ window.onclick = function(event) {
   }
 
   function newTime(){
-    let time = sessionStorage.getItem("time") || 12;
+    let time = localStorage.getItem("time") || 12;
     if (time == 12) {
         var date = new Date();
-        return date.toLocaleString('en-US');
+        return date.toLocaleString('en-US').split(',')[1];
     } else {
         var date = new Date();
-        return date.toLocaleString('en-GB');
+        return date.toLocaleString('en-GB').split(',')[1].trim();
     }
   }
 
