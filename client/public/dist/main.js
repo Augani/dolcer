@@ -33,7 +33,7 @@ function SendMessage(e) {
     message,
     to: userData,
     from: myName,
-    createdAt: newTime()
+    createdAt: newTime(),
   };
   appendChat(messageObject);
   addMessage(messageObject);
@@ -68,15 +68,18 @@ function startChat(e) {
 function getUserMessage(message) {
   let image = isAnImage(message.message);
   return `
-    <div class="w-4/5 flex flex-row mb-1 px-10 ">
+    <div class="w-full flex flex-row mb-1 px-10 relative ">
+        <div class="flex flex-col p-2">
+        <small class="">${message.from}  ${message.createdAt}</small>
         <span class="w-1/5 flex flex-col chat-them p-1 shadow">
         ${
           image
             ? `<img onerror="this.onerror=null; this.src='https://picsum.photos/200'" src="' + message.message + '"/>`
             : "<p>" + message.message + "</p>"
         }
-            <small>${message.createdAt}</small>
+            
         </span>
+        </div>
     </div>
     `;
 }
@@ -84,15 +87,18 @@ function getUserMessage(message) {
 function getMyMessage(message) {
   let image = isAnImage(message.message);
   return `
-    <div class="w-4/5 flex flex-row-reverse px-10 mb-1 ">
+    <div class="w-full flex flex-row-reverse px-10 mb-1 ">
+        <div class="flex flex-col p-2">
+        <small>${message.from}  ${message.createdAt}</small>
         <span class="w-1/5 flex flex-col chat-me p-1 shadow">
             ${
               image
                 ? `<img onerror="this.onerror=null; this.src='https://picsum.photos/200'" src="' + message.message + '"/>`
                 : "<p>" + message.message + "</p>"
             }
-            <small>${message.createdAt}</small>
+          
         </span>
+        <div>
     </div>
     `;
 }
@@ -111,6 +117,11 @@ function appendChat(message) {
     var mes = getUserMessage(message);
     el.insertAdjacentHTML("beforeend", mes);
   }
+  updateScroll();
+}
+function updateScroll() {
+  var element = document.getElementById("chatArea");
+  element.scrollTop = element.scrollHeight;
 }
 
 function timeSetter(dt) {
@@ -122,19 +133,18 @@ function timeSetter(dt) {
   }
 }
 
-
 function Settings() {
   var modal = document.getElementById("myModal");
   modal.style.display = "block";
 }
 
 function timeChanged(e) {
-  if(e.value == 12){
-        sessionSave('time', 12)
-  }else {
-    sessionSave('time', 24)
+  if (e.value == 12) {
+    sessionSave("time", 12);
+  } else {
+    sessionSave("time", 24);
   }
-  reloadMessages()
+  reloadMessages();
 }
 
 function addMessage(message) {
@@ -148,7 +158,7 @@ function addMessage(message) {
 function reloadMessages() {
   var el = document.getElementById("chatArea");
   let messages = localStorage.getItem("messages");
-  if(!messages)return;
+  if (!messages) return;
   messages = JSON.parse(messages);
   el.innerHTML = "";
   for (var t = 0; t < messages.length; t++) {
@@ -157,19 +167,20 @@ function reloadMessages() {
 }
 
 function get24Hour(datetime) {
-    let t = new Date();
-    let y = new Date(`${t.getMonth()+1}/${t.getDate()}/${t.getFullYear()} ${datetime}`)
-    return y.getHours() + ":" + y.getMinutes();
+  let t = new Date();
+  let y = new Date(
+    `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()} ${datetime}`
+  );
+  return y.getHours() + ":" + y.getMinutes();
 }
 
 function get12Hour(datetime) {
-    let t = new Date();
-    let y = new Date(`${t.getMonth()+1}/${t.getDate()}/${t.getFullYear()} ${datetime}`)
+  let t = new Date();
+  let y = new Date(
+    `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()} ${datetime}`
+  );
   var suffix = y.getHours() >= 12 ? "PM" : "AM";
-  let hour =
-    y.getHours() > 12
-      ? y.getHours() - 12
-      : y.getHours();
+  let hour = y.getHours() > 12 ? y.getHours() - 12 : y.getHours();
   let minutes = y.getMinutes();
   return hour + ":" + minutes + " " + suffix;
 }
@@ -186,48 +197,47 @@ function isAnImage(message) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-function handler(e){
-    if(e.keyCode===13 && e.ctrlKey){
-        document.getElementById("sendBtn").click();
-    }
+function handler(e) {
+  if (e.keyCode === 13 && e.ctrlKey) {
+    document.getElementById("sendBtn").click();
+  }
 }
 
-function ctrlChanged(e){
-    if(e.value == "on"){
-        document.addEventListener('keydown',handler);
-    
-    }else {
-        document.removeEventListener('keydown',handler);
-    }
+function ctrlChanged(e) {
+  if (e.value == "on") {
+    document.addEventListener("keydown", handler);
+  } else {
+    document.removeEventListener("keydown", handler);
+  }
 }
 
-function closeModal(){
-    var modal = document.getElementById("myModal");
+function closeModal() {
+  var modal = document.getElementById("myModal");
+  modal.style.display = "none";
+}
+
+window.onclick = function (event) {
+  var modal = document.getElementById("myModal");
+  if (event.target == modal) {
     modal.style.display = "none";
+  }
+};
+
+function newTime() {
+  let time = localStorage.getItem("time") || 12;
+  if (time == 12) {
+    var date = new Date();
+    return date.toLocaleString("en-US").split(",")[1];
+  } else {
+    var date = new Date();
+    return date.toLocaleString("en-GB").split(",")[1].trim();
+  }
 }
 
-window.onclick = function(event) {
-    var modal = document.getElementById("myModal");
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-
-  function newTime(){
-    let time = localStorage.getItem("time") || 12;
-    if (time == 12) {
-        var date = new Date();
-        return date.toLocaleString('en-US').split(',')[1];
-    } else {
-        var date = new Date();
-        return date.toLocaleString('en-GB').split(',')[1].trim();
-    }
-  }
-
-  function Reset(){
-      let hour = document.getElementById('12hour');
-      if(!hour.checked)hour.click();
-      let ctrl = document.getElementById('Off')
-      if(!ctrl.checked)ctrl.click();
-      closeModal();
-  }
+function Reset() {
+  let hour = document.getElementById("12hour");
+  if (!hour.checked) hour.click();
+  let ctrl = document.getElementById("Off");
+  if (!ctrl.checked) ctrl.click();
+  closeModal();
+}

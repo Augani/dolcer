@@ -5,7 +5,6 @@ var http = require("http").Server(app);
 const io = require("socket.io")(http);
 var usersOnline = [];
 
-
 io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     disconnect(socket.id);
@@ -19,7 +18,6 @@ io.on("connection", (socket) => {
   });
 });
 
-
 io.on("message", (data) => {
   console.log(data);
 });
@@ -28,12 +26,6 @@ function disconnect(id) {
 }
 app.use("/", express.static("client/public"));
 
-
-
 http.listen(8000, () => {
   console.log("listening on port ");
 });
-
-
-
-
