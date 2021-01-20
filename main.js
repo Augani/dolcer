@@ -1,6 +1,5 @@
 var express = require("express");
 var app = express();
-var path = require("path");
 var http = require("http").Server(app);
 const io = require("socket.io")(http);
 var usersOnline = [];
@@ -18,11 +17,9 @@ io.on("connection", (socket) => {
   });
 });
 
-io.on("message", (data) => {
-  console.log(data);
-});
 function disconnect(id) {
-  console.log(id, "dis");
+  if (!usersOnline.length) return;
+  usersOnline = usersOnline.filter((p) => p.socketId != id);
 }
 app.use("/", express.static("client/public"));
 
