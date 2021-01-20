@@ -48,12 +48,14 @@
 
 Describe your project
 
-This is a simple chat application built with vanilla js and node
+This is a simple chat application built with vanilla js and node. It currently supports 1-1 chat. When you visit the homepage, just enter your username and that of the person you want to chat with. The person will also enter their username and yours to start the chat.
 
 ## :sparkles: Features ##
 
-:heavy_check_mark: One on One chat;\
-:heavy_check_mark: Picture sending;\
+:heavy_check_mark: One on One chat
+:heavy_check_mark: Picture sending
+:heavy_check_mark: Time format changing
+
 
 ## :rocket: Technologies ##
 
