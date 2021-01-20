@@ -301,6 +301,12 @@ main {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
+.modal #reset {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.5em;
+}
 .modal .modal-content {
   background-color: #fefefe;
   margin: 15% auto;

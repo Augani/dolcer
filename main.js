@@ -29,7 +29,7 @@ io.on("message", (data) => {
 function disconnect(id) {
   console.log(id, "dis");
 }
-app.use("/simple", express.static("client/public"));
+app.use("/", express.static("client/public"));
 
 
 http.listen(8000, () => {

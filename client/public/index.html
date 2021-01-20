@@ -89,7 +89,7 @@
                 type="radio"
                 value="12"
                 onchange="timeChanged(this)"
-                checked="truw"
+                checked
                 name="hour"
                 id="12hour"
               />
@@ -124,7 +124,7 @@
               <label for="off">Off</label>
               <input
                 type="radio"
-                checked="true"
+                checked
                 value="off"
                 onchange="ctrlChanged(this)"
                 name="message"
@@ -133,6 +133,9 @@
             </div>
           </div>
         </fieldset>
+        <div class="flex flex-row w-full justify-center">
+            <button id="reset" onclick="Reset();">Reset to default</button>
+        </div>
       </div>
     </div>
     <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>

@@ -71,7 +71,7 @@ function getUserMessage(message) {
         <span class="w-1/5 flex flex-col chat-them p-1 ">
         ${
           image
-            ? '<img src="' + message.message + '"/>'
+            ? `<img onerror="this.onerror=null; this.src='https://picsum.photos/200'" src="' + message.message + '"/>`
             : "<p>" + message.message + "</p>"
         }
             <small>${message.createdAt}</small>
@@ -87,7 +87,7 @@ function getMyMessage(message) {
         <span class="w-1/5 flex flex-col chat-me p-1">
             ${
               image
-                ? '<img src="' + message.message + '"/>'
+                ? `<img onerror="this.onerror=null; this.src='https://picsum.photos/200'" src="' + message.message + '"/>`
                 : "<p>" + message.message + "</p>"
             }
             <small>${message.createdAt}</small>
@@ -220,4 +220,12 @@ window.onclick = function(event) {
         var date = new Date();
         return date.toLocaleString('en-GB');
     }
+  }
+
+  function Reset(){
+      let hour = document.getElementById('12hour');
+      if(!hour.checked)hour.click();
+      let ctrl = document.getElementById('Off')
+      if(!ctrl.checked)ctrl.click();
+      closeModal();
   }
